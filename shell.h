@@ -11,5 +11,6 @@
 
 // Function definition
 void parse_command(char *args[], char *command);
+void execute_command(char *args[]);
 
 #endif // !SHELL_H

@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <unistd.h>
 
 int
 main ()
@@ -12,16 +13,14 @@ main ()
         command[strcspn(command, "\n")] = '\0';
         char *args[100];
         parse_command(args, command);
-        if(strcmp(command, "exit") == 0) exit(0);
-
-        pid_t pid = fork();
-        if (pid == 0)
+        if (strcmp(args[0], "cd") == 0) 
         {
-            execvp(command , args);
-            perror("exec failed!");
-            return 1;
+            chdir(args[1]);
+            continue;
         }
-        else wait(NULL);
+        if(strcmp(command, "exit") == 0) exit(0);
+        execute_command(args);
+
     }
     return 0;
 }
