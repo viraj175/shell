@@ -24,22 +24,8 @@ main ()
 
         if(strcmp(command, "exit") == 0) exit(0);
 
-        if(fill.has_pipes)
-        {
-            u8 i = 0;
-            while (fill.pipe_args[i])
-            {
-                printf("%s\t", fill.pipe_args[i++]);
-            }
-            printf("\n");
-        }
-
-        if(fill.has_redirection)
-        {
-            printf("filename: %s\n", fill.filename);
-        }
-
         execute_command(&fill);
+        if(fill.has_redirection) close(fill.fd);
     }
     return 0;
 }
