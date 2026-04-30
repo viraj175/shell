@@ -10,19 +10,27 @@
 #define COMMAND_SIZE 100
 #define ARG_SIZE 30
 #define FILE_NAME 20
+typedef unsigned char u8 ;
 
-typedef struct fileinfo 
+typedef struct command
 {
-    char *outfile[FILE_NAME];
+    char *filename;
+    char *args[ARG_SIZE];
+    char *pipe_args[ARG_SIZE];
+    int fds[2];
     int fd;
     int flags;
-} FileInfo;
+    int has_pipes;
+    int has_redirection;
+} 
+command_t;
 
 // Function definition
-void parse_command(char *args[], char *command, FileInfo *file);
-char *search(const char *command, const char find);
-void execute_command(char *args[], FileInfo file);
-void redirection(FileInfo *file);
+void parse_command(char *command, char *args[]);
+void handle_command(char *command, command_t *out);
+void pipe_arguments(char *command, command_t *out);
+void redirection(char *command, command_t *out);
+void execute_command(char *args[], command_t *out);
 char *trim(char *str);
 
 #endif // !SHELL_H
