@@ -39,13 +39,7 @@ main ()
             printf("filename: %s\n", fill.filename);
         }
 
-        u8 i = 0;
-        while (fill.args[i])
-        {
-            printf("%s\t", fill.args[i++]);
-        }
-        printf("\n");
-        // execute_command(fill.args, &fill);
+        execute_command(&fill);
     }
     return 0;
 }

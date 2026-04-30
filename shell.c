@@ -47,7 +47,7 @@ handle_command(char *command, command_t *out)
         cmd = strtok_r(NULL, "|", &savecmd);
         parse_command(cmd, out->args);
     }
-    else if (strchr(command, '>'))
+    if (strchr(command, '>'))
     {
         out->has_redirection = 1;
         cmd = strtok_r(command, ">", &savecmd);
@@ -55,6 +55,24 @@ handle_command(char *command, command_t *out)
         cmd = strtok_r(NULL, ">", &savecmd);
         out->filename = trim(cmd);
     }
-    else 
+    if (!out->has_pipes && !out->has_redirection) 
         parse_command(command, out->args);
 }
+
+int
+execute_command(command_t *out)
+{
+    pid_t pid = fork();
+    if (pid == 0)
+    {
+        execvp(out->args[0], out->args);
+        perror("exec failed!");
+        return -1;
+    }
+    else 
+    {
+        wait(NULL);
+    }
+    return 0;
+}
+

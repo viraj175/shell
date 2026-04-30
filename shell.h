@@ -30,7 +30,7 @@ void parse_command(char *command, char *args[]);
 void handle_command(char *command, command_t *out);
 void pipe_arguments(char *command, command_t *out);
 void redirection(char *command, command_t *out);
-void execute_command(char *args[], command_t *out);
+int execute_command(command_t *out);
 char *trim(char *str);
 
 #endif // !SHELL_H
